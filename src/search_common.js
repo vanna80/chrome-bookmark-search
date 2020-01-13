@@ -19,8 +19,10 @@ var bookmarks = (function(){
 	b.searchSubTrees = function(nodeArray, query, callback){
 		query = query.toLowerCase();
 		var sr = [];
+		var queryArray = query.split(" ")
 		b.itemEachRecursive(nodeArray, function(n){
-			if('url' in n && (n.title.toLowerCase().indexOf(query) != -1 || ((!jsMatch.test(n.url) || n.title == "") && n.url.toLowerCase().indexOf(query) != -1))){
+		var titleArray = n.title.toLowerCase().split(" ")
+			if('url' in n && (queryArray.every(queryString => titleArray.filter(titleString => titleString.includes(queryString)).length > 0) || ((!jsMatch.test(n.url) || n.title == "") && n.url.toLowerCase().indexOf(query) != -1))){
 				sr.push(n);
 			}
 		});
